@@ -11,7 +11,7 @@
 
 --------------------------------------------------------------------------------
 
-## 1) Setup
+# 1) Setup
 
 > [!WARNING]
 > To use CRAB for foresting, you will need to work from **lxplus8**.
@@ -21,15 +21,15 @@
 
 ### 1.1) Install CMSSW
 ```bash
-cmsrel CMSSW_15_0_9
-cd CMSSW_15_0_9/src
+cmsrel CMSSW_15_0_9_patch3
+cd CMSSW_15_0_9_patch3/src
 cmsenv
 ```
 
-### 1.2) Add CMS Heavy Ion foresting tools
+### 1.2) Add CMS Heavy Ion foresting tools (`src/HeavyIonsAnalysis`)
 ```bash
 git cms-merge-topic CmsHI:forest_CMSSW_15_0_X
-scram build -j4
+scram b -j4
 ```
 
 > [!TIP] 
@@ -38,21 +38,21 @@ scram build -j4
 > git remote add cmshi git@github.com:CmsHI/cmssw.git
 > ```
 
-### 1.3) Add ADC
+### 1.3) Add ADC (`src/HltL1Run`)
 ```bash
 git clone git@github.com:boundino/HltL1Run.git
 ln -s HltL1Run/L1/ADC .
 scram b -j4
 ```
 
-### 1.4) Download ZDC emap and copy into 
-`CMSSW_15_0_9/src/HeavyIonsAnalysis/Configuration/data/`
+### 1.4) Add Dfinder (`src/Bfinder`)
 ```bash
-wget https://github.com/hjbossi/ZDCOnlineMonitoring/blob/main/Conditions/emap/emap_2025_full.txt
-cp emap_2025_full.txt ../HeavyIonsAnalysis/Configuration/data/
+git clone -b Dfinder_14XX_miniAOD https://github.com/boundino/Bfinder.git --depth 1
+source Bfinder/test/DnBfinder_to_Forest.sh
+scram b -j4
 ```
 
-### 1.5) Clone this repository and add your remote repo
+### 1.5) Clone this repository and add your repo (`src/HiForestSetupOORun2025`)
 **On github**, fork this repository to make your own version. This will be used
 to document your forest configs.
 
@@ -71,7 +71,7 @@ git pull upstream main
 
 --------------------------------------------------------------------------------
 
-## 2) Processing Forests
+# 2) Processing Forests
 
 ### 2.0) Edit CRABConfig settings
 Make a **copy** of the CRABConfig file with an appropriate name:
